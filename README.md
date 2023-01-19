@@ -78,6 +78,17 @@ doctl compute firewall add-rules $Firewall_ID --inbound-rules $Inbound_HTTP
 doctl compute firewall add-rules $Firewall_ID --inbound-rules $Inbound_HTTPS
 doctl compute firewall add-rules $Firewall_ID --inbound-rules $Inbound_SSH
 
+# Internal Firewall
+Firewall_Name=InternalNetwork
+Internal_10="protocol:tcp,ports:0,address:10.0.0.0/8"
+Internal_10_udp="protocol:udp,ports:0,address:10.0.0.0/8"
+Internal_172="protocol:tcp,ports:0,address:172.16.0.0/12"
+Internal_172_udp="protocol:udp,ports:0,address:172.16.0.0/12"
+Internal_192="protocol:tcp,ports:0,address:192.168.0.0/16"
+Internal_192_udp="protocol:udp,ports:0,address:192.168.0.0/16"
+
+doctl compute firewall create --name $Firewall_Name --inbound-rules "$Internal_10 $Internal_10_udp $Internal_172 $Internal_172_udp $Internal_192 $Internal_192_udp"
+
 for tag in $tags; do; doctl compute firewall add-tags $Firewall_ID --tag-names $tag; done
 
 # delete a firewall rule
@@ -103,6 +114,20 @@ doctl compute droplet tag droplet_id --tag-name actual_tag
 To add firewall while creating a droplet...
 ```
 doctl compute - TODO
+```
+
+Useful commands before creating a droplet...
+
+```
+doctl compute image list --public | more
+doctl compute image list --public | grep 'debian'
+
+doctl compute region list
+
+doctl compute size list
+
+doctl compute ssh-key list
+
 ```
 
 ### Monitoring
