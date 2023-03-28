@@ -112,8 +112,24 @@ doctl compute droplet tag droplet_id --tag-name actual_tag
 ```
 
 To add firewall while creating a droplet...
+
+Just add the firewall tag/s that need to be attached to a droplet.
+
 ```
-doctl compute - TODO
+doctl compute droplet create \
+--image ubuntu-20-04-x64 \
+--size s-1vcpu-1gb \
+--region nyc1 \
+--tag-name test
+droplet_name
+
+# or
+doctl compute droplet create \
+--image ubuntu-22-04-x64 \
+--size s-1vcpu-1gb \
+--region nyc1 \
+--tag-names test,beta
+droplet_name
 ```
 
 Useful commands before creating a droplet...
@@ -124,7 +140,7 @@ doctl compute image list --public | grep 'debian'
 
 doctl compute region list
 
-doctl compute size list
+doctl compute size list | less
 
 doctl compute ssh-key list
 
